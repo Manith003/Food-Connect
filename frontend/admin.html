@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Food Connect</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="assets/manifest.json">
+    <meta name="theme-color" content="#85431E">
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--balsamico) 0%, var(--honey-garlic) 100%);
+            color: var(--white);
+            padding: 6rem 0 4rem;
+            margin-bottom: 3rem; 
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .page-subtitle {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+        
+        .admin-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .tabs-container {
+            margin-bottom: 2rem;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .admin-section {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--champagne);
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--burnt-coffee);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--burnt-coffee);
+            opacity: 0.8;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .admin-table th {
+            background: var(--champagne);
+            color: var(--burnt-coffee);
+            font-weight: 600;
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 2px solid var(--honey-garlic);
+        }
+        
+        .admin-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .admin-table tr:hover {
+            background: rgba(234, 206, 170, 0.1);
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-admin {
+            background: #cce5ff;
+            color: #004085;
+        }
+        
+        .status-user {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+        }
+        
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .chart-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .chart-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--burnt-coffee);
+        }
+        
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .bar-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .bar-label {
+            min-width: 100px;
+            font-size: 0.875rem;
+        }
+        
+        .bar-track {
+            flex: 1;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .bar-fill {
+            height: 100%;
+            background: var(--honey-garlic);
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+        
+        .bar-value {
+            min-width: 40px;
+            text-align: right;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--burnt-coffee);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .admin-table th,
+            .admin-table td {
+                padding: 0.5rem;
+                font-size: 0.875rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-dot-outline"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-utensils"></i>
+                <span>Food Connect</span>
+            </a>
+            
+            <button class="mobile-menu-btn">
+                ☰
+            </button>
+
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="spots.html" class="nav-link">Food Spots</a></li>
+                <li><a href="map.html" class="nav-link">Map</a></li>
+                <li><a href="communities.html" class="nav-link">Communities</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                
+                <div id="authSection" class="user-menu">
+                    <li><a href="login.html" class="nav-link">Login</a></li>
+                    <li><a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a></li>
+                </div>
+                
+                <div id="userSection" class="user-menu hidden">
+                    <li><a href="profile.html" class="nav-link">
+                        <div class="user-avatar" id="userAvatar">U</div>
+                        <span id="userName">User</span>
+                    </a></li>
+                    <li><a href="#" class="nav-link logout-btn">Logout</a></li>
+                </div>
+                
+                <div id="adminSection" class="user-menu hidden">
+                    <li><a href="admin.html" class="nav-link active">
+                        <i class="fas fa-crown"></i> Admin
+                    </a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title fade-in">Admin Panel</h1>
+            <p class="page-subtitle slide-up delay-1">
+                Manage users, communities, and view platform analytics.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Access Denied Message -->
+        <div id="accessDeniedMessage" class="hidden">
+            <div class="section-card" style="text-align: center; padding: 3rem;">
+                <i class="fas fa-lock" style="font-size: 3rem; color: var(--champagne); margin-bottom: 1rem;"></i>
+                <h2>Access Denied</h2>
+                <p style="margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+                    You need administrator privileges to access this panel. Please contact the system administrator if you believe this is an error.
+                </p>
+                <a href="index.html" class="btn btn-primary">Back to Home</a>
+            </div>
+        </div>
+
+        <!-- Admin Content -->
+        <div id="adminContent" class="hidden">
+            <!-- Tabs Navigation -->
+            <div class="tabs-container">
+                <div class="tabs">
+                    <button class="tab active" data-tab="dashboard">Dashboard</button>
+                    <button class="tab" data-tab="users">Users</button>
+                    <button class="tab" data-tab="communities">Communities</button>
+                    <button class="tab" data-tab="reports">Reports</button>
+                </div>
+            </div>
+
+            <!-- Tab Contents -->
+            <div class="tab-contents">
+                <!-- Dashboard Tab -->
+                <div id="dashboard" class="tab-content active">
+                    <div class="admin-section">
+                        <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">Platform Overview</h2>
+                        
+                        <div id="dashboardStats" class="stats-grid">
+                            <!-- Stats will be loaded here -->
+                            <div class="loading">
+                                <div class="loading-spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-section">
+                        <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">Quick Actions</h2>
+                        
+                        <div class="action-buttons" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button class="btn btn-primary" onclick="switchTab('users')">
+                                <i class="fas fa-users"></i> Manage Users
+                            </button>
+                            <button class="btn btn-secondary" onclick="switchTab('communities')">
+                                <i class="fas fa-comments"></i> Manage Communities
+                            </button>
+                            <a href="spots.html" class="btn btn-outline">
+                                <i class="fas fa-store"></i> Manage Food Spots
+                            </a>
+                            <button class="btn btn-outline" onclick="switchTab('reports')">
+                                <i class="fas fa-chart-bar"></i> View Reports
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users Tab -->
+                <div id="users" class="tab-content">
+                    <div class="admin-section">
+                        <div class="section-header">
+                            <h2>User Management</h2>
+                            <div class="search-box" style="max-width: 300px;">
+                                <input type="text" id="searchUsers" class="form-control" placeholder="Search users...">
+                            </div>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table class="admin-table" id="usersTable">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Status</th>
+                                        <th>Joined</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTableBody">
+                                    <!-- Users will be loaded here -->
+                                    <tr>
+                                        <td colspan="6" style="text-align: center; padding: 2rem;">
+                                            <div class="loading">
+                                                <div class="loading-spinner"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Communities Tab -->
+                <div id="communities" class="tab-content">
+                    <div class="admin-section">
+                        <div class="section-header">
+                            <h2>Community Management</h2>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table class="admin-table" id="communitiesTable">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Members</th>
+                                        <th>Created By</th>
+                                        <th>Created</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="communitiesTableBody">
+                                    <!-- Communities will be loaded here -->
+                                    <tr>
+                                        <td colspan="6" style="text-align: center; padding: 2rem;">
+                                            <div class="loading">
+                                                <div class="loading-spinner"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reports Tab -->
+                <div id="reports" class="tab-content">
+                    <div class="admin-section">
+                        <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">Platform Reports</h2>
+                        
+                        <div id="reportsContainer">
+                            <div class="loading">
+                                <div class="loading-spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-logo">
+                        <i class="fas fa-utensils"></i> Food Connect
+                    </h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">
+                        Where friends and food meet. Discover, connect, and share amazing food experiences.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="spots.html">Food Spots</a></li>
+                        <li><a href="map.html">Map</a></li>
+                        <li><a href="communities.html">Communities</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Account</h4>
+                    <ul class="footer-links">
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="signup.html">Sign Up</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Contact</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Loyola College, Chennai</li>
+                        <li><i class="fas fa-envelope"></i> contact@foodconnect.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Food Connect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

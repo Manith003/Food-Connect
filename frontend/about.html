@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Food Connect</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="assets/manifest.json">
+    <meta name="theme-color" content="#85431E">
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--honey-garlic) 0%, var(--balsamico) 100%);
+            color: var(--white);
+            padding: 6rem 0 4rem;
+            margin-bottom: 3rem;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .page-subtitle {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+        
+        .about-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+        
+        .about-image {
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            height: 400px;
+            background: linear-gradient(135deg, var(--champagne) 0%, var(--honey-garlic) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 10rem;
+        }
+        
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .feature-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            transition: all var(--transition-normal);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--honey-garlic);
+            margin-bottom: 1.5rem;
+        }
+        
+        .mission-vision {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .mission-card, .vision-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .team-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .team-avatar {
+            width: 100px;
+            height: 100px;
+            background: var(--champagne);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--burnt-coffee);
+            font-weight: 600;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, var(--champagne) 0%, var(--honey-garlic) 100%);
+            border-radius: var(--radius-xl);
+            padding: 4rem 2rem;
+            text-align: center;
+            color: var(--white);
+            margin-bottom: 4rem;
+        }
+        
+        @media (max-width: 992px) {
+            .about-hero {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .about-image {
+                height: 300px;
+                order: -1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .mission-vision {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-dot-outline"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-utensils"></i>
+                <span>Food Connect</span>
+            </a>
+            
+            <button class="mobile-menu-btn">
+                ☰
+            </button>
+
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="spots.html" class="nav-link">Food Spots</a></li>
+                <li><a href="map.html" class="nav-link">Map</a></li>
+                <li><a href="communities.html" class="nav-link">Communities</a></li>
+                <li><a href="about.html" class="nav-link active">About</a></li>
+                
+                <div id="authSection" class="user-menu">
+                    <li><a href="login.html" class="nav-link">Login</a></li>
+                    <li><a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a></li>
+                </div>
+                
+                <div id="userSection" class="user-menu hidden">
+                    <li><a href="profile.html" class="nav-link">
+                        <div class="user-avatar" id="userAvatar">U</div>
+                        <span id="userName">User</span>
+                    </a></li>
+                    <li><a href="#" class="nav-link logout-btn">Logout</a></li>
+                </div>
+                
+                <div id="adminSection" class="user-menu hidden">
+                    <li><a href="admin.html" class="nav-link">
+                        <i class="fas fa-crown"></i> Admin
+                    </a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title fade-in">About Food Connect</h1>
+            <p class="page-subtitle slide-up delay-1">
+                Discover the story behind our platform and how we're connecting Loyola College students through food.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="about-hero">
+            <div class="about-content slide-up">
+                <h2 style="font-size: 2rem; margin-bottom: 1rem; color: var(--burnt-coffee);">
+                    Where Friends and Food Meet
+                </h2>
+                <p style="font-size: 1.125rem; line-height: 1.8; color: #666;">
+                    Food Connect is a student-focused platform created exclusively for Loyola College, Chennai. 
+                    We believe that great food experiences are best shared with friends, and our mission is to 
+                    make discovering and enjoying food around campus easier, more social, and more fun.
+                </p>
+                <p style="font-size: 1.125rem; line-height: 1.8; color: #666;">
+                    Founded by students for students, we understand the unique needs and challenges of campus life. 
+                    Whether you're looking for affordable lunch spots, planning a group outing, or just want to 
+                    share your latest food discovery, Food Connect is your go-to platform.
+                </p>
+            </div>
+            
+            <div class="about-image slide-up delay-1">
+                <i class="fas fa-utensils"></i>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="feature-section">
+            <h2 class="section-title fade-in">What We Offer</h2>
+            
+            <div class="feature-grid slide-up delay-1">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3>Discover Food Spots</h3>
+                    <p>Explore curated food places around Loyola College with detailed information, menus, and authentic reviews from fellow students.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Private Communities</h3>
+                    <p>Create exclusive groups with friends to plan food outings, share recommendations, and make collective decisions.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-poll"></i>
+                    </div>
+                    <h3>Interactive Polls</h3>
+                    <p>Vote on where to eat next with friends. Our polling system makes group decisions fair and fun.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3>Campus Map</h3>
+                    <p>Interactive map showing all food spots around campus with directions and distance information.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission & Vision -->
+        <section class="mission-vision">
+            <div class="mission-card slide-up">
+                <h2 style="color: var(--honey-garlic); margin-bottom: 1rem;">
+                    <i class="fas fa-bullseye"></i> Our Mission
+                </h2>
+                <p style="line-height: 1.8; color: #666;">
+                    To enhance the college experience by creating a vibrant food community that helps students 
+                    discover amazing food, connect with friends, and build memorable dining experiences around 
+                    Loyola College.
+                </p>
+                <ul style="margin-top: 1rem; color: #666; padding-left: 1.5rem;">
+                    <li style="margin-bottom: 0.5rem;">Make food discovery easy and accessible</li>
+                    <li style="margin-bottom: 0.5rem;">Foster social connections through shared food experiences</li>
+                    <li style="margin-bottom: 0.5rem;">Support local food businesses around campus</li>
+                    <li>Create a platform that grows with our student community</li>
+                </ul>
+            </div>
+            
+            <div class="vision-card slide-up delay-1">
+                <h2 style="color: var(--honey-garlic); margin-bottom: 1rem;">
+                    <i class="fas fa-eye"></i> Our Vision
+                </h2>
+                <p style="line-height: 1.8; color: #666;">
+                    To become the essential food companion for every Loyola College student, transforming how 
+                    students explore, share, and enjoy food experiences throughout their college journey.
+                </p>
+                <div style="margin-top: 1.5rem;">
+                    <h3 style="font-size: 1.25rem; margin-bottom: 1rem; color: var(--burnt-coffee);">
+                        Future Enhancements
+                    </h3>
+                    <ul style="color: #666; padding-left: 1.5rem;">
+                        <li style="margin-bottom: 0.5rem;">Mobile app for iOS and Android</li>
+                        <li style="margin-bottom: 0.5rem;">Integration with college events and festivals</li>
+                        <li style="margin-bottom: 0.5rem;">Special student discounts and offers</li>
+                        <li style="margin-bottom: 0.5rem;">Food delivery coordination</li>
+                        <li>Culinary events and workshops</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="team-section">
+            <h2 class="section-title fade-in">Meet Our Team</h2>
+            <p class="text-center slide-up delay-1" style="max-width: 600px; margin: 0 auto 3rem; color: #666;">
+                Food Connect is developed and maintained by a passionate team of Loyola College students 
+                who understand the campus food scene inside out.
+            </p>
+            
+            <div class="team-grid">
+                <div class="team-card slide-up">
+                    <div class="team-avatar">S</div>
+                    <h3>Student Developer</h3>
+                    <p style="color: #666; font-size: 0.875rem;">Backend & Frontend</p>
+                </div>
+                
+                <div class="team-card slide-up delay-1">
+                    <div class="team-avatar">D</div>
+                    <h3>Student Designer</h3>
+                    <p style="color: #666; font-size: 0.875rem;">UI/UX Design</p>
+                </div>
+                
+                <div class="team-card slide-up delay-2">
+                    <div class="team-avatar">M</div>
+                    <h3>Student Marketer</h3>
+                    <p style="color: #666; font-size: 0.875rem;">Community Growth</p>
+                </div>
+                
+                <div class="team-card slide-up delay-3">
+                    <div class="team-avatar">C</div>
+                    <h3>Student Curator</h3>
+                    <p style="color: #666; font-size: 0.875rem;">Content & Reviews</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section slide-up">
+            <h2 style="font-size: 2rem; margin-bottom: 1rem;">Join Our Food Community</h2>
+            <p style="font-size: 1.125rem; margin-bottom: 2rem; opacity: 0.9;">
+                Start exploring food spots, connect with friends, and create amazing food memories today.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="signup.html" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-user-plus"></i> Sign Up Free
+                </a>
+                <a href="spots.html" class="btn btn-outline btn-lg" style="border-color: var(--white); color: var(--white);">
+                    <i class="fas fa-search"></i> Explore Food Spots
+                </a>
+            </div>
+        </section>
+
+        <!-- Contact Info -->
+        <section class="contact-info slide-up delay-1">
+            <div class="section-card" style="text-align: center; padding: 3rem;">
+                <h2 style="margin-bottom: 1rem; color: var(--burnt-coffee);">Get In Touch</h2>
+                <p style="margin-bottom: 2rem; color: #666; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    Have questions, suggestions, or want to collaborate? We'd love to hear from you!
+                </p>
+                <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; color: var(--honey-garlic); margin-bottom: 0.5rem;">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h4 style="margin-bottom: 0.25rem;">Location</h4>
+                        <p style="color: #666;">Loyola College, Chennai</p>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; color: var(--honey-garlic); margin-bottom: 0.5rem;">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h4 style="margin-bottom: 0.25rem;">Email</h4>
+                        <p style="color: #666;">contact@foodconnect.com</p>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; color: var(--honey-garlic); margin-bottom: 0.5rem;">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4 style="margin-bottom: 0.25rem;">For Students</h4>
+                        <p style="color: #666;">By Students</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-logo">
+                        <i class="fas fa-utensils"></i> Food Connect
+                    </h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">
+                        Where friends and food meet. Discover, connect, and share amazing food experiences.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="spots.html">Food Spots</a></li>
+                        <li><a href="map.html">Map</a></li>
+                        <li><a href="communities.html">Communities</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Account</h4>
+                    <ul class="footer-links">
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="signup.html">Sign Up</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Contact</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Loyola College, Chennai</li>
+                        <li><i class="fas fa-envelope"></i> contact@foodconnect.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Food Connect. All rights reserved. Made with ❤️ for Loyola College students.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/about.js"></script>
+</body>
+</html>

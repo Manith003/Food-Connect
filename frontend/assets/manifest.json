@@ -1,0 +1,67 @@
+{
+  "name": "Food Connect",
+  "short_name": "Food Connect",
+  "description": "Where Friends and Food Meet - Loyola College Food Platform",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#85431E",
+  "theme_color": "#85431E",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/assets/icons/icon.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/icon.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/icon.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/icon.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/icon.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/icon.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["food", "social", "lifestyle"],
+  "shortcuts": [
+    {
+      "name": "Explore Food Spots",
+      "short_name": "Food Spots",
+      "description": "Browse nearby food spots",
+      "url": "/spots.html"
+    },
+    {
+      "name": "Join Communities",
+      "short_name": "Communities",
+      "description": "Connect with foodie friends",
+      "url": "/communities.html"
+    }
+  ]
+}

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polls - Food Connect</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="assets/manifest.json">
+    <meta name="theme-color" content="#85431E">
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--balsamico) 0%, var(--honey-garlic) 100%);
+            color: var(--white);
+            padding: 6rem 0 4rem;
+            margin-bottom: 3rem;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .page-subtitle {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+        
+        .polls-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .polls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .poll-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+        }
+        
+        .poll-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .poll-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .poll-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            color: #666;
+        }
+        
+        .poll-options {
+            margin: 1.5rem 0;
+        }
+        
+        .poll-option {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            border: 1px solid #eee;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .poll-option:hover {
+            border-color: var(--champagne);
+            background: rgba(234, 206, 170, 0.1);
+        }
+        
+        .poll-option.selected {
+            border-color: var(--honey-garlic);
+            background: rgba(133, 67, 30, 0.1);
+        }
+        
+        .poll-option.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .option-result {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .result-bar {
+            flex: 1;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .result-fill {
+            height: 100%;
+            background: var(--honey-garlic);
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+        
+        .result-percentage {
+            min-width: 40px;
+            text-align: right;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--burnt-coffee);
+        }
+        
+        .poll-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .vote-count {
+            font-size: 0.875rem;
+            color: #666;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #666;
+            grid-column: 1 / -1;
+        }
+        
+        .community-filter {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .polls-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .community-filter {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-dot-outline"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-utensils"></i>
+                <span>Food Connect</span>
+            </a>
+            
+            <button class="mobile-menu-btn">
+                ☰
+            </button>
+
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="spots.html" class="nav-link">Food Spots</a></li>
+                <li><a href="map.html" class="nav-link">Map</a></li>
+                <li><a href="communities.html" class="nav-link">Communities</a></li>
+                <li><a href="polls.html" class="nav-link active">Polls</a></li>
+                
+                <div id="authSection" class="user-menu">
+                    <li><a href="login.html" class="nav-link">Login</a></li>
+                    <li><a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a></li>
+                </div>
+                
+                <div id="userSection" class="user-menu hidden">
+                    <li><a href="profile.html" class="nav-link">
+                        <div class="user-avatar" id="userAvatar">U</div>
+                        <span id="userName">User</span>
+                    </a></li>
+                    <li><a href="#" class="nav-link logout-btn">Logout</a></li>
+                </div>
+                
+                <div id="adminSection" class="user-menu hidden">
+                    <li><a href="admin.html" class="nav-link">
+                        <i class="fas fa-crown"></i> Admin
+                    </a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title fade-in">Food Polls</h1>
+            <p class="page-subtitle slide-up delay-1">
+                Vote in polls from your communities and help decide where to eat next with friends.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Not Logged In Message -->
+        <div id="notLoggedInMessage" class="hidden">
+            <div class="section-card" style="text-align: center; padding: 3rem;">
+                <i class="fas fa-poll" style="font-size: 3rem; color: var(--champagne); margin-bottom: 1rem;"></i>
+                <h2>Login to View Polls</h2>
+                <p style="margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+                    You need to be logged in to view and vote in polls from your food communities.
+                </p>
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                    <a href="login.html" class="btn btn-primary">Login</a>
+                    <a href="signup.html" class="btn btn-outline">Sign Up</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logged In Content -->
+        <div id="loggedInContent" class="hidden">
+            <!-- Community Filter -->
+            <div class="community-filter">
+                <label class="form-label">Filter by Community:</label>
+                <select id="communityFilter" class="form-control" style="min-width: 200px;">
+                    <option value="all">All Communities</option>
+                    <!-- Communities will be loaded here -->
+                </select>
+                <button id="createPollBtn" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Create New Poll
+                </button>
+            </div>
+
+            <!-- Polls Grid -->
+            <div id="pollsContainer">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Create Poll Modal -->
+    <div id="createPollModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Create New Poll</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="createPollForm">
+                <div class="form-group">
+                    <label for="pollCommunity" class="form-label">Select Community</label>
+                    <select id="pollCommunity" class="form-control" required>
+                        <!-- Communities will be loaded here -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pollQuestion" class="form-label">Poll Question</label>
+                    <input type="text" id="pollQuestion" class="form-control" required 
+                           placeholder="e.g., Where should we eat this weekend?">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Poll Options</label>
+                    <div id="pollOptionsContainer">
+                        <div class="poll-option-input" style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <input type="text" class="form-control" placeholder="Option 1" required>
+                            <button type="button" class="btn btn-sm btn-danger remove-option-btn" disabled>
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="poll-option-input" style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <input type="text" class="form-control" placeholder="Option 2" required>
+                            <button type="button" class="btn btn-sm btn-danger remove-option-btn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="button" id="addPollOptionBtn" class="btn btn-outline btn-sm mt-1">
+                        <i class="fas fa-plus"></i> Add Option
+                    </button>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pollClosesAt" class="form-label">Closes At (optional)</label>
+                    <input type="datetime-local" id="pollClosesAt" class="form-control">
+                </div>
+                
+                <div class="modal-footer" style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+                    <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Poll</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-logo">
+                        <i class="fas fa-utensils"></i> Food Connect
+                    </h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">
+                        Where friends and food meet. Discover, connect, and share amazing food experiences.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="spots.html">Food Spots</a></li>
+                        <li><a href="map.html">Map</a></li>
+                        <li><a href="communities.html">Communities</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Account</h4>
+                    <ul class="footer-links">
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="signup.html">Sign Up</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Contact</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Loyola College, Chennai</li>
+                        <li><i class="fas fa-envelope"></i> contact@foodconnect.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Food Connect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/polls.js"></script>
+</body>
+</html>

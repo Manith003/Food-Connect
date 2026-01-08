@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Food Connect</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="assets/manifest.json">
+    <meta name="theme-color" content="#85431E">
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--balsamico) 0%, var(--honey-garlic) 100%);
+            color: var(--white);
+            padding: 6rem 0 4rem;
+            margin-bottom: 3rem;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .page-subtitle {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+        
+        .profile-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 3rem;
+        }
+        
+        .profile-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+        
+        .profile-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            background: var(--champagne);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--burnt-coffee);
+            margin: 0 auto 1.5rem;
+            font-weight: 600;
+        }
+        
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 1.5rem 0;
+            padding: 1rem 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--honey-garlic);
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: #666;
+        }
+        
+        .profile-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .section-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .section-title {
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .info-label {
+            font-size: 0.875rem;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .info-value {
+            font-size: 1rem;
+            color: var(--burnt-coffee);
+        }
+        
+        .preferences-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .cuisine-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .cuisine-tag {
+            background: var(--champagne);
+            color: var(--burnt-coffee);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border: 2px solid transparent;
+        }
+        
+        .cuisine-tag.selected {
+            background: var(--honey-garlic);
+            color: var(--white);
+            border-color: var(--honey-garlic);
+        }
+        
+        .cuisine-tag:hover {
+            transform: translateY(-2px);
+        }
+        
+        .budget-range {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .budget-input {
+            flex: 1;
+        }
+        
+        .saved-places-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #666;
+            grid-column: 1 / -1;
+        }
+        
+        @media (max-width: 992px) {
+            .profile-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-sidebar {
+                position: static;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .saved-places-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-dot-outline"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-utensils"></i>
+                <span>Food Connect</span>
+            </a>
+            
+            <button class="mobile-menu-btn">
+                ☰
+            </button>
+
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="spots.html" class="nav-link">Food Spots</a></li>
+                <li><a href="map.html" class="nav-link">Map</a></li>
+                <li><a href="communities.html" class="nav-link">Communities</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                
+                <div id="authSection" class="user-menu">
+                    <li><a href="login.html" class="nav-link">Login</a></li>
+                    <li><a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a></li>
+                </div>
+                
+                <div id="userSection" class="user-menu hidden">
+                    <li><a href="profile.html" class="nav-link active">
+                        <div class="user-avatar" id="userAvatar">U</div>
+                        <span id="userName">User</span>
+                    </a></li>
+                    <li><a href="#" class="nav-link logout-btn">Logout</a></li>
+                </div>
+                
+                <div id="adminSection" class="user-menu hidden">
+                    <li><a href="admin.html" class="nav-link">
+                        <i class="fas fa-crown"></i> Admin
+                    </a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title fade-in">My Profile</h1>
+            <p class="page-subtitle slide-up delay-1">
+                Manage your account, preferences, and saved food spots.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Not Logged In Message -->
+        <div id="notLoggedInMessage" class="hidden">
+            <div class="section-card" style="text-align: center; padding: 3rem;">
+                <i class="fas fa-user" style="font-size: 3rem; color: var(--champagne); margin-bottom: 1rem;"></i>
+                <h2>Please Login</h2>
+                <p style="margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+                    You need to be logged in to view your profile. Login to access your saved places and preferences.
+                </p>
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                    <a href="login.html" class="btn btn-primary">Login</a>
+                    <a href="signup.html" class="btn btn-outline">Sign Up</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logged In Content -->
+        <div id="loggedInContent" class="hidden">
+            <div class="profile-container">
+                <!-- Profile Sidebar -->
+                <aside class="profile-sidebar">
+                    <div class="profile-card slide-up">
+                        <div class="profile-avatar" id="profileAvatar">
+                            U
+                        </div>
+                        
+                        <h2 id="profileName">Loading...</h2>
+                        <p id="profileEmail" style="color: #666; margin-bottom: 1rem;">Loading...</p>
+                        
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <div class="stat-value" id="savedCount">0</div>
+                                <div class="stat-label">Saved</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="reviewsCount">0</div>
+                                <div class="stat-label">Reviews</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="communitiesCount">0</div>
+                                <div class="stat-label">Groups</div>
+                            </div>
+                        </div>
+                        
+                        <p id="memberSince" style="font-size: 0.875rem; color: #666;">
+                            Member since Loading...
+                        </p>
+                    </div>
+                </aside>
+                
+                <!-- Profile Content -->
+                <div class="profile-content">
+                    <!-- Personal Information -->
+                    <section class="section-card slide-up delay-1">
+                        <h2 class="section-title">Personal Information</h2>
+                        
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">Full Name</span>
+                                <span class="info-value" id="infoName">Loading...</span>
+                            </div>
+                            
+                            <div class="info-item">
+                                <span class="info-label">Email Address</span>
+                                <span class="info-value" id="infoEmail">Loading...</span>
+                            </div>
+                            
+                            <div class="info-item">
+                                <span class="info-label">Account Type</span>
+                                <span class="info-value" id="infoRole">Loading...</span>
+                            </div>
+                            
+                            <div class="info-item">
+                                <span class="info-label">Member Since</span>
+                                <span class="info-value" id="infoMemberSince">Loading...</span>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Food Preferences -->
+                    <section class="section-card slide-up delay-2">
+                        <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                            <h2 class="section-title">Food Preferences</h2>
+                            <button id="savePreferencesBtn" class="btn btn-primary" style="display: none;">
+                                Save Preferences
+                            </button>
+                        </div>
+                        
+                        <form id="preferencesForm" class="preferences-form">
+                            <div class="form-group">
+                                <label class="form-label">Vegetarian Preference</label>
+                                <div class="toggle-group" style="display: flex; align-items: center; gap: 1rem;">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="vegPreference">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                    <span>Show only vegetarian food spots</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Favorite Cuisines</label>
+                                <div class="cuisine-tags" id="cuisineTags">
+                                    <!-- Cuisine tags will be loaded here -->
+                                </div>
+                                <input type="hidden" id="selectedCuisines">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Budget Range (per meal)</label>
+                                <div class="budget-range">
+                                    <div class="budget-input">
+                                        <label class="form-label">Minimum (₹)</label>
+                                        <input type="number" id="budgetMin" class="form-control" min="0" max="10000" step="50">
+                                    </div>
+                                    <div style="padding-top: 1.5rem;">-</div>
+                                    <div class="budget-input">
+                                        <label class="form-label">Maximum (₹)</label>
+                                        <input type="number" id="budgetMax" class="form-control" min="0" max="10000" step="50">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+                    
+                    <!-- Saved Food Spots -->
+                    <section class="section-card slide-up delay-3">
+                        <h2 class="section-title">Saved Food Spots</h2>
+                        
+                        <div id="savedPlacesContainer">
+                            <div class="loading">
+                                <div class="loading-spinner"></div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-logo">
+                        <i class="fas fa-utensils"></i> Food Connect
+                    </h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">
+                        Where friends and food meet. Discover, connect, and share amazing food experiences.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="spots.html">Food Spots</a></li>
+                        <li><a href="map.html">Map</a></li>
+                        <li><a href="communities.html">Communities</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Account</h4>
+                    <ul class="footer-links">
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="signup.html">Sign Up</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Contact</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Loyola College, Chennai</li>
+                        <li><i class="fas fa-envelope"></i> contact@foodconnect.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Food Connect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>

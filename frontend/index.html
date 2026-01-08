@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Connect – Where Friends and Food Meet</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="assets/manifest.json">
+    <meta name="theme-color" content="#85431E">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-dot-outline"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-utensils"></i>
+                <span>Food Connect</span>
+            </a>
+            
+            <button class="mobile-menu-btn">
+                ☰
+            </button>
+
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link active">Home</a></li>
+                <li><a href="spots.html" class="nav-link">Food Spots</a></li>
+                <li><a href="map.html" class="nav-link">Map</a></li>
+                <li><a href="communities.html" class="nav-link">Communities</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                
+                <!-- Authentication Section (shown when not logged in) -->
+                <div id="authSection" class="user-menu">
+                    <li><a href="login.html" class="nav-link">Login</a></li>
+                    <li><a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a></li>
+                </div>
+                
+                <!-- User Section (shown when logged in) -->
+                <div id="userSection" class="user-menu hidden">
+                    <li><a href="profile.html" class="nav-link">
+                        <div class="user-avatar" id="userAvatar">U</div>
+                        <span id="userName">User</span>
+                    </a></li>
+                    <li><a href="#" class="nav-link logout-btn">Logout</a></li>
+                </div>
+                
+                <!-- Admin Section (shown only for admins) -->
+                <div id="adminSection" class="user-menu hidden">
+                    <li><a href="admin.html" class="nav-link">
+                        <i class="fas fa-crown"></i> Admin
+                    </a></li>
+                </div>
+                
+                <!-- Mobile Authentication Section -->
+                <div id="mobileAuthSection" class="user-menu mobile-only">
+                    <li><a href="login.html" class="nav-link">Login</a></li>
+                    <li><a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a></li>
+                </div>
+                
+                <!-- Mobile User Section -->
+                <div id="mobileUserSection" class="user-menu mobile-only hidden">
+                    <li><a href="profile.html" class="nav-link">
+                        <div class="user-avatar" id="mobileUserAvatar">U</div>
+                        <span id="mobileUserName">User</span>
+                    </a></li>
+                    <li><a href="#" class="nav-link logout-btn">Logout</a></li>
+                </div>
+                
+                <!-- Mobile Admin Section -->
+                <div id="mobileAdminSection" class="user-menu mobile-only hidden">
+                    <li><a href="admin.html" class="nav-link">
+                        <i class="fas fa-crown"></i> Admin
+                    </a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" style="
+        background: linear-gradient(135deg, var(--balsamico) 0%, var(--honey-garlic) 100%);
+        color: var(--white);
+        padding: 8rem 0 4rem;
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+    ">
+        <div class="container">
+            <div class="hero-content" style="max-width: 800px;">
+                <h1 class="fade-in" style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1.5rem; color: beige;">
+                    Discover Amazing Food Experiences
+                </h1>
+                <p class="slide-up delay-1" style="font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.9;">
+                    Connect with friends, explore food spots around Loyola College, and create unforgettable dining memories together.
+                </p>
+                <div class="hero-buttons slide-up delay-2" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="spots.html" class="btn btn-primary btn-lg hover-lift">
+                        <i class="fas fa-search"></i> Explore Food Spots
+                    </a>
+                    <a href="communities.html" class="btn btn-outline btn-lg hover-lift" style="border-color: var(--white); color: var(--white);">
+                        <i class="fas fa-users"></i> Join Communities
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Decorative Elements -->
+        <div class="hero-decoration" style="
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 40%;
+            height: 100%;
+            /* background: url('assets/images/food-hero.svg') no-repeat center right; */
+            background-size: contain;
+            opacity: 0.1;
+        "></div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="section" style="background-color: var(--champagne);">
+        <div class="container">
+            <h2 class="section-title fade-in">Food Connect in Numbers</h2>
+            <div class="grid grid-3 fade-in delay-1">
+                <div class="stat-card" style="
+                    background: var(--white);
+                    padding: 2rem;
+                    border-radius: var(--radius-lg);
+                    text-align: center;
+                    box-shadow: var(--shadow-md);
+                ">
+                    <div class="stat-icon" style="
+                        font-size: 3rem;
+                        color: var(--honey-garlic);
+                        margin-bottom: 1rem;
+                    ">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3 style="font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--honey-garlic);">
+                        <span id="placesCount">0</span>+
+                    </h3>
+                    <p style="color: var(--burnt-coffee); font-weight: 500;">Food Spots</p>
+                </div>
+                
+                <div class="stat-card" style="
+                    background: var(--white);
+                    padding: 2rem;
+                    border-radius: var(--radius-lg);
+                    text-align: center;
+                    box-shadow: var(--shadow-md);
+                ">
+                    <div class="stat-icon" style="
+                        font-size: 3rem;
+                        color: var(--honey-garlic);
+                        margin-bottom: 1rem;
+                    ">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 style="font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--honey-garlic);">
+                        <span id="usersCount">0</span>+
+                    </h3>
+                    <p style="color: var(--burnt-coffee); font-weight: 500;">Community Members</p>
+                </div>
+                
+                <div class="stat-card" style="
+                    background: var(--white);
+                    padding: 2rem;
+                    border-radius: var(--radius-lg);
+                    text-align: center;
+                    box-shadow: var(--shadow-md);
+                ">
+                    <div class="stat-icon" style="
+                        font-size: 3rem;
+                        color: var(--honey-garlic);
+                        margin-bottom: 1rem;
+                    ">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3 style="font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--honey-garlic);">
+                        <span id="reviewsCount">0</span>+
+                    </h3>
+                    <p style="color: var(--burnt-coffee); font-weight: 500;">Reviews</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Food Spots -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">Featured Food Spots</h2>
+            <p class="text-center slide-up delay-1" style="margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Discover the most popular food spots around Loyola College, handpicked by our community.
+            </p>
+            
+            <div id="featuredPlaces" class="grid grid-3">
+                <!-- Featured places will be loaded here -->
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                </div>
+            </div>
+            
+            <div class="text-center slide-up delay-3" style="margin-top: 3rem;">
+                <a href="spots.html" class="btn btn-primary btn-lg hover-lift">
+                    View All Food Spots <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Invitation -->
+    <section class="section" style="
+        background: linear-gradient(135deg, var(--honey-garlic) 0%, var(--burnt-coffee) 100%);
+        color: var(--white);
+    ">
+        <div class="container">
+            <div class="community-invite" style="
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 4rem 2rem;
+                border-radius: var(--radius-xl);
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            ">
+                <h2 class="fade-in" style="font-size: 2.5rem; margin-bottom: 1rem;">
+                    Join Food Communities
+                </h2>
+                <p class="slide-up delay-1" style="
+                    font-size: 1.125rem;
+                    margin-bottom: 2rem;
+                    max-width: 600px;
+                    opacity: 0.9;
+                ">
+                    Create private groups with friends, plan food outings together, vote on where to eat next, and share your food experiences.
+                </p>
+                <div class="slide-up delay-2">
+                    <a href="communities.html" class="btn btn-secondary btn-lg hover-lift">
+                        <i class="fas fa-plus-circle"></i> Create or Join a Community
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">How Food Connect Works</h2>
+            
+            <div class="grid grid-3 slide-up delay-1">
+                <div class="step-card" style="
+                    text-align: center;
+                    padding: 2rem;
+                ">
+                    <div class="step-number" style="
+                        width: 60px;
+                        height: 60px;
+                        background: var(--champagne);
+                        color: var(--burnt-coffee);
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 1.5rem;
+                        font-weight: 700;
+                        margin: 0 auto 1.5rem;
+                    ">1</div>
+                    <h3 style="margin-bottom: 1rem;">Discover Food Spots</h3>
+                    <p>Browse through food spots near Loyola College with detailed info, menus, and reviews.</p>
+                </div>
+                
+                <div class="step-card" style="
+                    text-align: center;
+                    padding: 2rem;
+                ">
+                    <div class="step-number" style="
+                        width: 60px;
+                        height: 60px;
+                        background: var(--champagne);
+                        color: var(--burnt-coffee);
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 1.5rem;
+                        font-weight: 700;
+                        margin: 0 auto 1.5rem;
+                    ">2</div>
+                    <h3 style="margin-bottom: 1rem;">Join Communities</h3>
+                    <p>Create or join private groups with friends to plan food outings together.</p>
+                </div>
+                
+                <div class="step-card" style="
+                    text-align: center;
+                    padding: 2rem;
+                ">
+                    <div class="step-number" style="
+                        width: 60px;
+                        height: 60px;
+                        background: var(--champagne);
+                        color: var(--burnt-coffee);
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 1.5rem;
+                        font-weight: 700;
+                        margin: 0 auto 1.5rem;
+                    ">3</div>
+                    <h3 style="margin-bottom: 1rem;">Share & Connect</h3>
+                    <p>Share reviews, vote in polls, chat with friends, and build your foodie network.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-logo">
+                        <i class="fas fa-utensils"></i> Food Connect
+                    </h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">
+                        Where friends and food meet. Discover, connect, and share amazing food experiences around Loyola College.
+                    </p>
+                    <div class="social-links" style="display: flex; gap: 1rem;">
+                        <a href="#" style="color: var(--white); font-size: 1.25rem;">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" style="color: var(--white); font-size: 1.25rem;">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" style="color: var(--white); font-size: 1.25rem;">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="spots.html">Food Spots</a></li>
+                        <li><a href="map.html">Map</a></li>
+                        <li><a href="communities.html">Communities</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Account</h4>
+                    <ul class="footer-links">
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="signup.html">Sign Up</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Contact</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 0.5rem;"></i> Loyola College, Chennai</li>
+                        <li><i class="fas fa-envelope" style="margin-right: 0.5rem;"></i> contact@foodconnect.com</li>
+                        <li><i class="fas fa-phone" style="margin-right: 0.5rem;"></i> +91 98765 43210</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Food Connect. All rights reserved. Designed for Loyola College students.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>

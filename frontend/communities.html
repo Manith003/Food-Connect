@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Communities - Food Connect</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="assets/manifest.json">
+    <meta name="theme-color" content="#85431E">
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--honey-garlic) 0%, var(--balsamico) 100%);
+            color: var(--white);
+            padding: 6rem 0 4rem;
+            margin-bottom: 3rem;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .page-subtitle {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+        
+        .tabs-container {
+            margin-bottom: 2rem;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .communities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .community-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+            border: 1px solid transparent;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .community-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--champagne);
+        }
+        
+        .community-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .community-type {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+        }
+        
+        .community-type.public {
+            background: var(--champagne);
+            color: var(--burnt-coffee);
+        }
+        
+        .community-type.private {
+            background: var(--balsamico);
+            color: var(--white);
+        }
+        
+        .community-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            color: #666;
+        }
+        
+        .community-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        
+        .tag {
+            background: var(--champagne);
+            color: var(--burnt-coffee);
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .community-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+        
+        /* Enhanced Chat Container */
+        .chat-container {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, var(--honey-garlic) 0%, var(--balsamico) 100%);
+            color: var(--white);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .chat-header-info {
+            flex: 1;
+        }
+        
+        .chat-header h3 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1.25rem;
+        }
+        
+        .chat-header-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        
+        .chat-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .chat-members-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            padding: 0.5rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all var(--transition-fast);
+        }
+        
+        .chat-members-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .chat-main {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .chat-sidebar {
+            width: 250px;
+            background: #f8f9fa;
+            border-right: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .chat-messages-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            background: #f8f9fa;
+        }
+        
+        .message {
+            margin-bottom: 1rem;
+            max-width: 70%;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .message.sent {
+            margin-left: auto;
+        }
+        
+        .message.received {
+            margin-right: auto;
+        }
+        
+        .message-content {
+            background: var(--white);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+        
+        .message.sent .message-content {
+            background: var(--champagne);
+            border-bottom-right-radius: 4px;
+        }
+        
+        .message.received .message-content {
+            background: var(--white);
+            border-bottom-left-radius: 4px;
+        }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .message-sender {
+            font-weight: 600;
+            color: var(--honey-garlic);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .message-time {
+            color: #666;
+            font-size: 0.75rem;
+        }
+        
+        .attached-place {
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(133, 67, 30, 0.05);
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--honey-garlic);
+        }
+        
+        .attached-place a {
+            color: var(--honey-garlic);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .attached-place a:hover {
+            text-decoration: underline;
+        }
+        
+        .chat-input-container {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #eee;
+            background: var(--white);
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 0.5rem;
+            align-items: flex-end;
+        }
+        
+        .chat-input textarea {
+            flex: 1;
+            resize: none;
+            min-height: 40px;
+            max-height: 120px;
+            font-family: var(--body-font);
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius-md);
+            transition: border-color var(--transition-fast);
+        }
+        
+        .chat-input textarea:focus {
+            outline: none;
+            border-color: var(--honey-garlic);
+        }
+        
+        .chat-input-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .chat-attach-btn {
+            background: none;
+            border: none;
+            color: var(--burnt-coffee);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+        }
+        
+        .chat-attach-btn:hover {
+            background: var(--champagne);
+        }
+        
+        /* Members Sidebar */
+        .members-section {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .members-section h4 {
+            margin-bottom: 0.75rem;
+            color: var(--burnt-coffee);
+        }
+        
+        .members-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .member-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            border-radius: var(--radius-sm);
+            transition: background var(--transition-fast);
+        }
+        
+        .member-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        
+        .member-avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--champagne);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--burnt-coffee);
+            font-size: 0.875rem;
+        }
+        
+        .member-info {
+            flex: 1;
+        }
+        
+        .member-name {
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+        
+        .member-role {
+            font-size: 0.75rem;
+            color: #666;
+        }
+        
+        /* Polls Section in Chat */
+        .polls-section {
+            padding: 1rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .polls-section h4 {
+            margin-bottom: 0.75rem;
+            color: var(--burnt-coffee);
+        }
+        
+        .active-polls {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .poll-preview {
+            background: var(--white);
+            border: 1px solid #eee;
+            border-radius: var(--radius-md);
+            padding: 0.75rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .poll-preview:hover {
+            border-color: var(--champagne);
+            transform: translateX(4px);
+        }
+        
+        .poll-question {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            font-size: 0.875rem;
+        }
+        
+        .poll-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: #666;
+        }
+        
+        /* Poll Modal */
+        .poll-modal .modal-content {
+            max-width: 600px;
+        }
+        
+        .poll-results {
+            margin-top: 1.5rem;
+        }
+        
+        .poll-option-result {
+            margin-bottom: 1rem;
+        }
+        
+        .poll-option-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .poll-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .poll-bar-fill {
+            height: 100%;
+            background: var(--honey-garlic);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #666;
+        }
+        
+        .invite-section {
+            background: var(--champagne);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .password-input-container {
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .typing-indicator {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.875rem;
+            color: #666;
+            font-style: italic;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+        
+        .online-indicator {
+            width: 8px;
+            height: 8px;
+            background: #28a745;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        
+        .typing {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @media (max-width: 992px) {
+            .chat-sidebar {
+                display: none;
+            }
+            
+            .chat-members-btn {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .communities-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chat-container {
+                height: 500px;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+            
+            .message {
+                max-width: 85%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-dot-outline"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-utensils"></i>
+                <span>Food Connect</span>
+            </a>
+            
+            <button class="mobile-menu-btn">
+                ☰
+            </button>
+
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="spots.html" class="nav-link">Food Spots</a></li>
+                <li><a href="map.html" class="nav-link">Map</a></li>
+                <li><a href="communities.html" class="nav-link active">Communities</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                
+                <div id="authSection" class="user-menu">
+                    <li><a href="login.html" class="nav-link">Login</a></li>
+                    <li><a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a></li>
+                </div>
+                
+                <div id="userSection" class="user-menu hidden">
+                    <li><a href="profile.html" class="nav-link">
+                        <div class="user-avatar" id="userAvatar">U</div>
+                        <span id="userName">User</span>
+                    </a></li>
+                    <li><a href="#" class="nav-link logout-btn">Logout</a></li>
+                </div>
+                
+                <div id="adminSection" class="user-menu hidden">
+                    <li><a href="admin.html" class="nav-link">
+                        <i class="fas fa-crown"></i> Admin
+                    </a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title fade-in">Food Communities</h1>
+            <p class="page-subtitle slide-up delay-1">
+                Join private groups with friends, plan food outings, vote on where to eat, and share your food experiences.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Not Logged In Message -->
+        <div id="notLoggedInMessage" class="hidden">
+            <div class="section-card" style="text-align: center; padding: 3rem;">
+                <i class="fas fa-users" style="font-size: 3rem; color: var(--champagne); margin-bottom: 1rem;"></i>
+                <h2>Login to Access Communities</h2>
+                <p style="margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+                    Join or create private food groups with your friends. Login to get started!
+                </p>
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                    <a href="login.html" class="btn btn-primary">Login</a>
+                    <a href="signup.html" class="btn btn-outline">Sign Up</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logged In Content -->
+        <div id="loggedInContent" class="hidden">
+            <!-- Tabs Navigation -->
+            <div class="tabs-container">
+                <div class="tabs">
+                    <button class="tab active" data-tab="my-communities">My Groups</button>
+                    <button class="tab" data-tab="discover">Discover Public</button>
+                    <button class="tab" data-tab="chat">Group Chat</button>
+                    <button class="tab" data-tab="polls">Polls</button>
+                </div>
+            </div>
+
+            <!-- Tab Contents -->
+            <div class="tab-contents">
+                <!-- My Communities Tab -->
+                <div id="my-communities" class="tab-content active">
+                    <div class="section-header">
+                        <h2>Your Food Groups</h2>
+                        <button id="createCommunityBtn" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Create New Group
+                        </button>
+                    </div>
+                    
+                    <div id="myCommunitiesContainer">
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Discover Public Communities Tab -->
+                <div id="discover" class="tab-content">
+                    <div class="section-header">
+                        <h2>Discover Public Communities</h2>
+                        <div class="search-box" style="max-width: 300px;">
+                            <input type="text" id="searchCommunities" class="form-control" placeholder="Search communities...">
+                        </div>
+                    </div>
+                    
+                    <div id="publicCommunitiesContainer">
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enhanced Group Chat Tab -->
+                <div id="chat" class="tab-content">
+                    <div class="empty-state" id="noChatSelected">
+                        <i class="fas fa-comments" style="font-size: 3rem; color: var(--champagne); margin-bottom: 1rem;"></i>
+                        <h3>Select a Community to Chat</h3>
+                        <p>Choose one of your groups from the "My Groups" tab to start chatting with members.</p>
+                    </div>
+                    
+                    <div id="chatContainer" class="chat-container hidden">
+                        <div class="chat-header">
+                            <div class="chat-header-info">
+                                <h3 id="chatCommunityName">Community Name</h3>
+                                <div class="chat-header-meta">
+                                    <span id="chatCommunityType">Public</span>
+                                    <span id="chatMemberCount">0 members</span>
+                                    <span id="chatActiveMembers">0 online</span>
+                                </div>
+                            </div>
+                            <div class="chat-controls">
+                                <button class="chat-members-btn" id="toggleMembersBtn">
+                                    <i class="fas fa-users"></i>
+                                    <span>Members</span>
+                                </button>
+                                <button id="closeChatBtn" class="btn btn-sm btn-outline" style="border-color: var(--white); color: var(--white);">
+                                    <i class="fas fa-times"></i> Close
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-main">
+                            <!-- Members Sidebar -->
+                            <div id="chatSidebar" class="chat-sidebar">
+                                <div class="members-section">
+                                    <h4>Members</h4>
+                                    <div id="membersList" class="members-list">
+                                        <!-- Members will be loaded here -->
+                                    </div>
+                                </div>
+                                
+                                <div class="polls-section">
+                                    <h4>Active Polls</h4>
+                                    <div id="activePollsList" class="active-polls">
+                                        <!-- Active polls will be shown here -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Chat Messages Container -->
+                            <div class="chat-messages-container">
+                                <div id="chatMessages" class="chat-messages">
+                                    <!-- Messages will be loaded here -->
+                                </div>
+                                
+                                <div id="typingIndicator" class="typing-indicator hidden">
+                                    <span id="typingUsers"></span> <span class="typing">is typing...</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-input-container">
+                            <div class="chat-input">
+                                <textarea id="messageInput" class="form-control" 
+                                          placeholder="Type your message... (Press Shift+Enter for new line)" 
+                                          rows="1"></textarea>
+                                <div class="chat-input-actions">
+                                    <button class="chat-attach-btn" id="attachPlaceBtn" title="Attach a food spot">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </button>
+                                    <button class="chat-attach-btn" id="attachPollBtn" title="Create a poll">
+                                        <i class="fas fa-poll"></i>
+                                    </button>
+                                    <button id="sendMessageBtn" class="btn btn-primary">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Polls Tab -->
+                <div id="polls" class="tab-content">
+                    <div class="empty-state" id="noPollsSelected">
+                        <i class="fas fa-poll" style="font-size: 3rem; color: var(--champagne); margin-bottom: 1rem;"></i>
+                        <h3>Select a Community for Polls</h3>
+                        <p>Choose one of your groups from the "My Groups" tab to view and create polls.</p>
+                    </div>
+                    
+                    <div id="pollsContainer" class="hidden">
+                        <div class="section-header">
+                            <h2 id="pollsCommunityName">Community Polls</h2>
+                            <button id="createPollBtn" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Create Poll
+                            </button>
+                        </div>
+                        
+                        <div id="pollsList">
+                            <!-- Polls will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Join via Invite Section -->
+        <div class="invite-section slide-up delay-2">
+            <h3 style="margin-bottom: 1rem;">Join via Invite Code</h3>
+            <div style="display: flex; gap: 1rem;">
+                <input type="text" id="inviteCodeInput" class="form-control" placeholder="Enter invite code">
+                <button id="joinByInviteBtn" class="btn btn-primary">Join</button>
+            </div>
+            <div id="invitePasswordContainer" class="password-input-container">
+                <input type="password" id="invitePasswordInput" class="form-control mt-2" placeholder="Enter community password">
+                <small style="color: #666; display: block; margin-top: 0.25rem;">
+                    This is a private community. Password required.
+                </small>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <!-- Create Community Modal -->
+    <div id="createCommunityModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Create New Community</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="createCommunityForm">
+                <div class="form-group">
+                    <label for="communityName" class="form-label">Community Name</label>
+                    <input type="text" id="communityName" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="communityDescription" class="form-label">Description</label>
+                    <textarea id="communityDescription" class="form-control" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="isPrivateCommunity">
+                        <label for="isPrivateCommunity" class="checkbox-label">Private Community</label>
+                    </div>
+                    <small style="color: #666; display: block; margin-top: 0.25rem;">
+                        Private communities require a password to join
+                    </small>
+                </div>
+                
+                <div id="passwordFieldContainer" class="form-group hidden">
+                    <label for="communityPassword" class="form-label">Community Password</label>
+                    <input type="password" id="communityPassword" class="form-control" 
+                           placeholder="Set a password for your private community">
+                    <small style="color: #666; display: block; margin-top: 0.25rem;">
+                        Must be at least 4 characters
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="communityTags" class="form-label">Tags (comma separated)</label>
+                    <input type="text" id="communityTags" class="form-control" 
+                           placeholder="e.g., vegan, budget, chinese">
+                </div>
+                
+                <div class="form-group">
+                    <label for="maxMembers" class="form-label">Maximum Members (optional)</label>
+                    <input type="number" id="maxMembers" class="form-control" min="2" max="200" value="50">
+                </div>
+                
+                <div class="modal-footer" style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+                    <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Community</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Create Poll Modal -->
+    <div id="createPollModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Create New Poll</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="createPollForm">
+                <div class="form-group">
+                    <label for="pollQuestion" class="form-label">Poll Question</label>
+                    <input type="text" id="pollQuestion" class="form-control" required 
+                           placeholder="e.g., Where should we eat this weekend?">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Poll Options</label>
+                    <div id="pollOptionsContainer">
+                        <div class="poll-option" style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <input type="text" class="form-control poll-option-input" placeholder="Option 1" required>
+                            <button type="button" class="btn btn-sm btn-danger remove-option-btn" disabled>
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="poll-option" style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <input type="text" class="form-control poll-option-input" placeholder="Option 2" required>
+                            <button type="button" class="btn btn-sm btn-danger remove-option-btn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="button" id="addPollOptionBtn" class="btn btn-outline btn-sm mt-1">
+                        <i class="fas fa-plus"></i> Add Option
+                    </button>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pollClosesAt" class="form-label">Closes At (optional)</label>
+                    <input type="datetime-local" id="pollClosesAt" class="form-control">
+                </div>
+                
+                <div class="modal-footer" style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+                    <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Poll</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Attach Place Modal -->
+    <div id="attachPlaceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Attach Food Spot</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="searchPlaceInput" class="form-label">Search Food Spots</label>
+                    <input type="text" id="searchPlaceInput" class="form-control" placeholder="Type to search food spots...">
+                </div>
+                
+                <div id="placesSearchResults" style="max-height: 300px; overflow-y: auto; margin-top: 1rem;">
+                    <!-- Search results will appear here -->
+                </div>
+            </div>
+            <div class="modal-footer" style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+                <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Poll Modal -->
+    <div id="viewPollModal" class="modal poll-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="pollModalTitle">Poll</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="pollModalQuestion" style="margin-bottom: 1.5rem;"></p>
+                
+                <div id="pollModalOptions">
+                    <!-- Poll options will be loaded here -->
+                </div>
+                
+                <div id="pollModalResults" class="poll-results hidden">
+                    <!-- Poll results will be shown here -->
+                </div>
+            </div>
+            <div class="modal-footer" style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+                <button type="button" class="btn btn-secondary cancel-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-logo">
+                        <i class="fas fa-utensils"></i> Food Connect
+                    </h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">
+                        Where friends and food meet. Discover, connect, and share amazing food experiences.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="spots.html">Food Spots</a></li>
+                        <li><a href="map.html">Map</a></li>
+                        <li><a href="communities.html">Communities</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Account</h4>
+                    <ul class="footer-links">
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="signup.html">Sign Up</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Contact</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Loyola College, Chennai</li>
+                        <li><i class="fas fa-envelope"></i> contact@foodconnect.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Food Connect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/communities.js"></script>
+    
+</body>
+</html>

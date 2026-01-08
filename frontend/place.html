@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Spot Details - Food Connect</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="manifest" href="assets/manifest.json">
+    <meta name="theme-color" content="#85431E">
+    <style>
+        .place-hero {
+            background: linear-gradient(135deg, var(--balsamico) 0%, var(--honey-garlic) 100%);
+            color: var(--white);
+            padding: 6rem 0 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .place-hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .place-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .place-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .place-hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: 1;
+        }
+        
+        .place-content {
+            padding: 3rem 0;
+        }
+        
+        .section-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--champagne);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--burnt-coffee);
+            font-size: 1.25rem;
+        }
+        
+        .map-container {
+            height: 300px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        
+        .menu-category {
+            margin-bottom: 2rem;
+        }
+        
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+        
+        .menu-item {
+            background: var(--champagne);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .reviews-container {
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+        
+        .review-card {
+            background: var(--white);
+            border: 1px solid #eee;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .review-user {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .review-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--champagne);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--burnt-coffee);
+        }
+        
+        .review-content {
+            margin-top: 1rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .place-title {
+                font-size: 2rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .menu-items {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-dot-outline"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-utensils"></i>
+                <span>Food Connect</span>
+            </a>
+            
+            <button class="mobile-menu-btn">
+                ☰
+            </button>
+
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="spots.html" class="nav-link">Food Spots</a></li>
+                <li><a href="map.html" class="nav-link">Map</a></li>
+                <li><a href="communities.html" class="nav-link">Communities</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                
+                <div id="authSection" class="user-menu">
+                    <li><a href="login.html" class="nav-link">Login</a></li>
+                    <li><a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a></li>
+                </div>
+                
+                <div id="userSection" class="user-menu hidden">
+                    <li><a href="profile.html" class="nav-link">
+                        <div class="user-avatar" id="userAvatar">U</div>
+                        <span id="userName">User</span>
+                    </a></li>
+                    <li><a href="#" class="nav-link logout-btn">Logout</a></li>
+                </div>
+                
+                <div id="adminSection" class="user-menu hidden">
+                    <li><a href="admin.html" class="nav-link">
+                        <i class="fas fa-crown"></i> Admin
+                    </a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Place Hero Section -->
+    <section class="place-hero">
+        <div class="place-hero-bg" id="placeHeroBg"></div>
+        <div class="container">
+            <div class="place-hero-content fade-in">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                    <h1 class="place-title" id="placeName">Loading...</h1>
+                    <div id="likeButtonContainer"></div>
+                </div>
+                
+                <div class="place-meta">
+                    <div id="placeRating"></div>
+                    <div id="placeCuisine"></div>
+                    <div id="placeVegBadge"></div>
+                    <div id="placePrice"></div>
+                </div>
+                
+                <p class="slide-up delay-1" id="placeDescription"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Place Content -->
+    <main class="place-content container">
+        <!-- Overview Section -->
+        <section class="section-card slide-up">
+            <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">Overview</h2>
+            
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div>
+                        <h4>Opening Hours</h4>
+                        <p id="placeHours">Loading...</p>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div>
+                        <h4>Location</h4>
+                        <p id="placeAddress">Loading...</p>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div>
+                        <h4>Contact</h4>
+                        <p id="placeContact">Loading...</p>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div>
+                        <h4>Popularity</h4>
+                        <p id="placePopularity">Loading...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Location & Map Section -->
+        <section class="section-card slide-up delay-1">
+            <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">Location</h2>
+            
+            <div class="info-grid">
+                <div>
+                    <h4>Address</h4>
+                    <p id="placeFullAddress" style="margin-bottom: 1rem;"></p>
+                    <p id="placeLandmark" style="color: #666;"></p>
+                </div>
+                
+                <div>
+                    <div class="map-container" id="mapContainer">
+                        <div class="loading" style="height: 100%;">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <a id="directionsBtn" class="btn btn-primary" target="_blank">
+                            <i class="fas fa-directions"></i> Get Directions
+                        </a>
+                        <a href="map.html" class="btn btn-outline">
+                            <i class="fas fa-map"></i> View on Map
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Menu Section -->
+        <section class="section-card slide-up delay-2">
+            <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">Menu</h2>
+            
+            <div id="menuContainer">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews Section -->
+        <section class="section-card slide-up delay-3">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 class="section-title" style="text-align: left; margin: 0;">Reviews</h2>
+                <button id="addReviewBtn" class="btn btn-primary" style="display: none;">
+                    <i class="fas fa-plus"></i> Add Review
+                </button>
+            </div>
+            
+            <!-- Add Review Form (Hidden by default) -->
+            <div id="reviewFormContainer" class="hidden" style="margin-bottom: 2rem;">
+                <div class="section-card" style="background: var(--champagne);">
+                    <h3>Write a Review</h3>
+                    <form id="reviewForm">
+                        <div class="form-group">
+                            <label class="form-label">Rating</label>
+                            <div class="rating-input" style="font-size: 1.5rem; color: #ddd;">
+                                <i class="fas fa-star" data-rating="1"></i>
+                                <i class="fas fa-star" data-rating="2"></i>
+                                <i class="fas fa-star" data-rating="3"></i>
+                                <i class="fas fa-star" data-rating="4"></i>
+                                <i class="fas fa-star" data-rating="5"></i>
+                            </div>
+                            <input type="hidden" id="reviewRating" value="5">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="reviewText" class="form-label">Your Review</label>
+                            <textarea id="reviewText" class="form-control" rows="4" 
+                                      placeholder="Share your experience..." required></textarea>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button type="submit" class="btn btn-primary">
+                                Submit Review
+                            </button>
+                            <button type="button" id="cancelReviewBtn" class="btn btn-outline">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Reviews List -->
+            <div id="reviewsContainer">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-logo">
+                        <i class="fas fa-utensils"></i> Food Connect
+                    </h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">
+                        Where friends and food meet. Discover, connect, and share amazing food experiences.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="spots.html">Food Spots</a></li>
+                        <li><a href="map.html">Map</a></li>
+                        <li><a href="communities.html">Communities</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Account</h4>
+                    <ul class="footer-links">
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="signup.html">Sign Up</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: var(--white); margin-bottom: 1rem;">Contact</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Loyola College, Chennai</li>
+                        <li><i class="fas fa-envelope"></i> contact@foodconnect.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Food Connect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/place.js"></script>
+</body>
+</html>
