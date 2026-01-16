@@ -85,15 +85,8 @@ function createPlaceCard(place) {
   
   // Create card content
   card.innerHTML = `
-    <div class="card-img" style="
-      background: linear-gradient(135deg, var(--champagne) 0%, var(--honey-garlic) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--white);
-      font-size: 3rem;
-    ">
-      <i class="fas fa-utensils"></i>
+    <div class="card-img">
+    <img src="${place.images[0]}" />
     </div>
     <div class="card-content">
       <div class="card-header" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">

@@ -98,8 +98,7 @@ class FoodConnectUtils {
           right: 20px;
           padding: 1rem 1.5rem;
           border-radius: var(--radius-md);
-          background: var(--white);
-          box-shadow: var(--shadow-lg);
+          background-color: white;    
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -111,19 +110,19 @@ class FoodConnectUtils {
         }
         .toast-info {
           border-left-color: #0dcaf0;
-          background: rgba(13, 202, 240, 0.1);
+          // background: rgba(13, 202, 240, 0.1);
         }
         .toast-success {
           border-left-color: #198754;
-          background: rgba(25, 135, 84, 0.1);
+          // background: rgba(25, 135, 84, 0.1);
         }
         .toast-warning {
           border-left-color: #ffc107;
-          background: rgba(255, 193, 7, 0.1);
+          // background: rgba(255, 193, 7, 0.1);
         }
         .toast-error {
           border-left-color: #dc3545;
-          background: rgba(220, 53, 69, 0.1);
+          // background: rgba(220, 53, 69, 0.1);
         }
         .toast-content {
           flex: 1;

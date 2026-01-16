@@ -1,5 +1,7 @@
 // Food Spots Listing Page JavaScript
 
+// const { console } = require("inspector");
+
 let currentPage = 1;
 let totalPages = 1;
 let currentFilters = {
@@ -189,7 +191,6 @@ function createPlaceCard(place) {
     const card = document.createElement('div');
     card.className = 'card hover-lift slide-up';
     card.style.opacity = '0';
-    
     // Determine if place is vegetarian
     const vegBadge = place.vegFlag ? 
         `<span class="badge badge-success"><i class="fas fa-leaf"></i> Veg</span>` : 
@@ -212,16 +213,9 @@ function createPlaceCard(place) {
     
     // Create card content
     card.innerHTML = `
-        <div class="card-img" style="
-            background: linear-gradient(135deg, var(--champagne) 0%, var(--honey-garlic) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 3rem;
-            position: relative;
-        ">
-            <i class="fas fa-utensils"></i>
+        <div class="card-img">
+        <img src="${place.images[0]}" />
+            
             ${likeButton}
         </div>
         <div class="card-content">

@@ -31,10 +31,10 @@
         }
         
         .map-container {
-            display: grid;
-            grid-template-columns: 350px 1fr;
+            display: flex;
             height: calc(100vh - 200px);
             position: relative;
+            width: 100%;
         }
         
         .sidebar {
@@ -44,10 +44,12 @@
             padding: 1.5rem;
             display: flex;
             flex-direction: column;
+            width: 50%;
         }
         
         .map-view {
             position: relative;
+            width: 50%;
         }
         
         #map {
@@ -150,6 +152,7 @@
             padding: 1rem;
             margin-top: 1rem;
             border-left: 4px solid var(--honey-garlic);
+            display: none;
         }
         
         .pro-tip h4 {
@@ -182,9 +185,6 @@
     </style>
 </head>
 <body>
-    <!-- Custom Cursor -->
-    <div class="cursor-dot"></div>
-    <div class="cursor-dot-outline"></div>
 
     <!-- Navigation -->
     <nav class="navbar">

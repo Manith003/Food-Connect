@@ -137,6 +137,7 @@
             height: 600px;
             display: flex;
             flex-direction: column;
+            margin-bottom: 2rem ;
         }
         
         .chat-header {
@@ -559,9 +560,6 @@
     </style>
 </head>
 <body>
-    <!-- Custom Cursor -->
-    <div class="cursor-dot"></div>
-    <div class="cursor-dot-outline"></div>
 
     <!-- Navigation -->
     <nav class="navbar">
@@ -639,7 +637,7 @@
                     <button class="tab active" data-tab="my-communities">My Groups</button>
                     <button class="tab" data-tab="discover">Discover Public</button>
                     <button class="tab" data-tab="chat">Group Chat</button>
-                    <button class="tab" data-tab="polls">Polls</button>
+                    <!-- <button class="tab" data-tab="polls">Polls</button> -->
                 </div>
             </div>
 
@@ -688,7 +686,7 @@
                     <div id="chatContainer" class="chat-container hidden">
                         <div class="chat-header">
                             <div class="chat-header-info">
-                                <h3 id="chatCommunityName">Community Name</h3>
+                                <h3 id="chatCommunityName" style="color:white">Community Name</h3>
                                 <div class="chat-header-meta">
                                     <span id="chatCommunityType">Public</span>
                                     <span id="chatMemberCount">0 members</span>
@@ -742,10 +740,10 @@
                                           placeholder="Type your message... (Press Shift+Enter for new line)" 
                                           rows="1"></textarea>
                                 <div class="chat-input-actions">
-                                    <button class="chat-attach-btn" id="attachPlaceBtn" title="Attach a food spot">
+                                    <button class="btn" id="attachPlaceBtn" title="Attach a food spot">
                                         <i class="fas fa-map-marker-alt"></i>
                                     </button>
-                                    <button class="chat-attach-btn" id="attachPollBtn" title="Create a poll">
+                                    <button class="btn" id="attachPollBtn" title="Create a poll">
                                         <i class="fas fa-poll"></i>
                                     </button>
                                     <button id="sendMessageBtn" class="btn btn-primary">

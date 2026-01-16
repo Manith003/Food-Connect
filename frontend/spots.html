@@ -1,354 +1,366 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Food Spots - Food Connect</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="manifest" href="assets/manifest.json">
-    <meta name="theme-color" content="#85431E">
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="manifest" href="assets/manifest.json" />
+    <meta name="theme-color" content="#85431E" />
     <style>
-        .page-header {
-            background: linear-gradient(135deg, var(--honey-garlic) 0%, var(--balsamico) 100%);
-            color: var(--white);
-            padding: 6rem 0 4rem;
-            margin-bottom: 3rem;
-        }
-        
-        .page-title {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .page-subtitle {
-            font-size: 1.125rem;
-            opacity: 0.9;
-            max-width: 600px;
-        }
-        
-        .filters-section {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            margin-bottom: 2rem;
-            position: sticky;
-            top: 80px;
-            z-index: 100;
-        }
-        
-        .filters-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            align-items: end;
-        }
-        
-        .toggle-group {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-        
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-        
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        
-        input:checked + .toggle-slider {
-            background-color: var(--honey-garlic);
-        }
-        
-        input:checked + .toggle-slider:before {
-            transform: translateX(26px);
-        }
-        
-        .search-box {
-            position: relative;
-        }
-        
-        .search-box input {
-            padding-left: 3rem;
-        }
-        
-        .search-box i {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--burnt-coffee);
-        }
-        
-        .clear-filters {
-            text-align: right;
-            margin-top: 1rem;
-        }
-        
-        .places-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        
-        .empty-state {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 4rem 2rem;
-        }
-        
-        .empty-state-icon {
-            font-size: 4rem;
-            color: var(--champagne);
-            margin-bottom: 1rem;
-        }
-        
-        @media (max-width: 768px) {
-            .filters-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .places-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .places-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Custom Cursor -->
-    <div class="cursor-dot"></div>
-    <div class="cursor-dot-outline"></div>
+      .page-header {
+        background: linear-gradient(
+          135deg,
+          var(--honey-garlic) 0%,
+          var(--balsamico) 100%
+        );
+        color: var(--white);
+        padding: 6rem 0 4rem;
+        margin-bottom: 3rem;
+      }
 
+      .page-title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .page-subtitle {
+        font-size: 1.125rem;
+        opacity: 0.9;
+        max-width: 600px;
+      }
+
+      .filters-section {
+        background: var(--white);
+        padding: 2rem;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        margin-bottom: 2rem;
+        top: 80px;
+        z-index: 100;
+      }
+
+      .filters-grid {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+      }
+
+      .toggle-group {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+      }
+
+      .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 34px;
+      }
+
+      .toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+
+      input:checked + .toggle-slider {
+        background-color: green;
+      }
+
+      input:checked + .toggle-slider:before {
+        transform: translateX(26px);
+      }
+
+      .search-box {
+        position: relative;
+      }
+
+      .search-box input {
+        padding-left: 3rem;
+      }
+
+      .search-box i {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--burnt-coffee);
+      }
+
+      .clear-filters {
+        text-align: right;
+        margin-top: 1rem;
+      }
+
+      .places-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 4rem 2rem;
+      }
+
+      .empty-state-icon {
+        font-size: 4rem;
+        color: var(--champagne);
+        margin-bottom: 1rem;
+      }
+
+      @media (max-width: 768px) {
+        .filters-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .places-grid {
+          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+      }
+
+      @media (max-width: 576px) {
+        .places-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <i class="fas fa-utensils"></i>
-                <span>Food Connect</span>
-            </a>
-            
-            <button class="mobile-menu-btn">
-                ☰
-            </button>
+      <div class="nav-container">
+        <a href="index.html" class="logo">
+          <i class="fas fa-utensils"></i>
+          <span>Food Connect</span>
+        </a>
 
-            <ul class="nav-links">
-                <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="spots.html" class="nav-link active">Food Spots</a></li>
-                <li><a href="map.html" class="nav-link">Map</a></li>
-                <li><a href="communities.html" class="nav-link">Communities</a></li>
-                <li><a href="about.html" class="nav-link">About</a></li>
-                
-                <div id="authSection" class="user-menu">
-                    <li><a href="login.html" class="nav-link">Login</a></li>
-                    <li><a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a></li>
-                </div>
-                
-                <div id="userSection" class="user-menu hidden">
-                    <li><a href="profile.html" class="nav-link">
-                        <div class="user-avatar" id="userAvatar">U</div>
-                        <span id="userName">User</span>
-                    </a></li>
-                    <li><a href="#" class="nav-link logout-btn">Logout</a></li>
-                </div>
-                
-                <div id="adminSection" class="user-menu hidden">
-                    <li><a href="admin.html" class="nav-link">
-                        <i class="fas fa-crown"></i> Admin
-                    </a></li>
-                </div>
-            </ul>
-        </div>
+        <button class="mobile-menu-btn">☰</button>
+
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="spots.html" class="nav-link active">Food Spots</a></li>
+          <li><a href="map.html" class="nav-link">Map</a></li>
+          <li><a href="communities.html" class="nav-link">Communities</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+
+          <div id="authSection" class="user-menu">
+            <li><a href="login.html" class="nav-link">Login</a></li>
+            <li>
+              <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+            </li>
+          </div>
+
+          <div id="userSection" class="user-menu hidden">
+            <li>
+              <a href="profile.html" class="nav-link">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <span id="userName">User</span>
+              </a>
+            </li>
+            <li><a href="#" class="nav-link logout-btn">Logout</a></li>
+          </div>
+
+          <div id="adminSection" class="user-menu hidden">
+            <li>
+              <a href="admin.html" class="nav-link">
+                <i class="fas fa-crown"></i> Admin
+              </a>
+            </li>
+          </div>
+        </ul>
+      </div>
     </nav>
 
     <!-- Page Header -->
     <header class="page-header">
-        <div class="container">
-            <h1 class="page-title fade-in">Discover Food Spots</h1>
-            <p class="page-subtitle slide-up delay-1">
-                Explore amazing food places around Loyola College. Filter by cuisine, price, rating, and more to find your perfect spot.
-            </p>
-        </div>
+      <div class="container">
+        <h1 class="page-title fade-in">Discover Food Spots</h1>
+        <p class="page-subtitle slide-up delay-1">
+          Explore amazing food places around Loyola College. Filter by cuisine,
+          price, rating, and more to find your perfect spot.
+        </p>
+      </div>
     </header>
 
     <!-- Main Content -->
     <main class="container">
-        <!-- Filters Section -->
-        <section class="filters-section slide-up delay-1">
-            <div class="filters-grid">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" 
-                           id="searchInput" 
-                           class="form-control" 
-                           placeholder="Search food spots..."
-                           data-hover="true">
-                </div>
-                
-                <div>
-                    <label class="form-label">Cuisine</label>
-                    <select id="cuisineFilter" class="form-control">
-                        <option value="">All Cuisines</option>
-                        <option value="South Indian">South Indian</option>
-                        <option value="North Indian">North Indian</option>
-                        <option value="Chinese">Chinese</option>
-                        <option value="Italian">Italian</option>
-                        <option value="Arabic">Arabic</option>
-                        <option value="Barbecue">Barbecue</option>
-                    </select>
-                </div>
-                
-                <div>
-                    <label class="form-label">Price Range</label>
-                    <select id="priceFilter" class="form-control">
-                        <option value="">All Prices</option>
-                        <option value="₹">₹ Budget</option>
-                        <option value="₹₹">₹₹ Affordable</option>
-                        <option value="₹₹₹">₹₹₹ Moderate</option>
-                        <option value="₹₹₹₹">₹₹₹₹ Premium</option>
-                    </select>
-                </div>
-                
-                <div>
-                    <label class="form-label">Minimum Rating</label>
-                    <select id="ratingFilter" class="form-control">
-                        <option value="">Any Rating</option>
-                        <option value="4">4+ Stars</option>
-                        <option value="3">3+ Stars</option>
-                        <option value="2">2+ Stars</option>
-                    </select>
-                </div>
-                
-                <div class="toggle-group">
-                    <div>
-                        <label class="form-label">Veg Only</label>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="vegFilter">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    
-                    <div>
-                        <label class="form-label">Sort By</label>
-                        <select id="sortFilter" class="form-control">
-                            <option value="averageRating">Highest Rated</option>
-                            <option value="name">Name A-Z</option>
-                            <option value="likeCount">Most Popular</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="clear-filters">
-                <button id="clearFilters" class="btn btn-outline btn-sm">
-                    Clear All Filters
-                </button>
-            </div>
-        </section>
+      <!-- Filters Section -->
+      <section class="filters-section slide-up delay-1">
+        <div class="filters-grid">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              id="searchInput"
+              class="form-control"
+              placeholder="Search food spots..."
+              data-hover="true"
+            />
+          </div>
 
-        <!-- Places Grid -->
-        <section id="placesContainer">
-            <div class="places-grid">
-                <!-- Places will be loaded here -->
-                <div class="loading">
-                    <div class="loading-spinner"></div>
-                </div>
+          <div>
+            <label class="form-label">Cuisine</label>
+            <select id="cuisineFilter" class="form-control">
+              <option value="">All Cuisines</option>
+              <option value="South Indian">South Indian</option>
+              <option value="North Indian">North Indian</option>
+              <option value="Chinese">Chinese</option>
+              <option value="Italian">Italian</option>
+              <option value="Arabic">Arabic</option>
+              <option value="Barbecue">Barbecue</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="form-label">Price Range</label>
+            <select id="priceFilter" class="form-control">
+              <option value="">All Prices</option>
+              <option value="₹">₹ Budget</option>
+              <option value="₹₹">₹₹ Affordable</option>
+              <option value="₹₹₹">₹₹₹ Moderate</option>
+              <option value="₹₹₹₹">₹₹₹₹ Premium</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="form-label">Minimum Rating</label>
+            <select id="ratingFilter" class="form-control">
+              <option value="">Any Rating</option>
+              <option value="4">4+ Stars</option>
+              <option value="3">3+ Stars</option>
+              <option value="2">2+ Stars</option>
+            </select>
+          </div>
+
+          <div class="toggle-group">
+            <div>
+              <label class="form-label">Sort By</label>
+              <select id="sortFilter" class="form-control">
+                <option value="averageRating">Highest Rated</option>
+                <option value="name">Name A-Z</option>
+                <option value="likeCount">Most Popular</option>
+              </select>
             </div>
-            
-            <!-- Pagination -->
-            <div id="pagination" class="pagination hidden"></div>
-        </section>
+            <div>
+              <label class="form-label">Veg Only</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="vegFilter" />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="clear-filters">
+          <button id="clearFilters" class="btn btn-outline btn-sm">
+            Clear All Filters
+          </button>
+        </div>
+      </section>
+
+      <!-- Places Grid -->
+      <section id="placesContainer">
+        <div class="places-grid">
+          <!-- Places will be loaded here -->
+          <div class="loading">
+            <div class="loading-spinner"></div>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div id="pagination" class="pagination hidden"></div>
+      </section>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3 class="footer-logo">
-                        <i class="fas fa-utensils"></i> Food Connect
-                    </h3>
-                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">
-                        Where friends and food meet. Discover, connect, and share amazing food experiences.
-                    </p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4 style="color: var(--white); margin-bottom: 1rem;">Quick Links</h4>
-                    <ul class="footer-links">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="spots.html">Food Spots</a></li>
-                        <li><a href="map.html">Map</a></li>
-                        <li><a href="communities.html">Communities</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4 style="color: var(--white); margin-bottom: 1rem;">Account</h4>
-                    <ul class="footer-links">
-                        <li><a href="login.html">Login</a></li>
-                        <li><a href="signup.html">Sign Up</a></li>
-                        <li><a href="profile.html">Profile</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4 style="color: var(--white); margin-bottom: 1rem;">Contact</h4>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-map-marker-alt"></i> Loyola College, Chennai</li>
-                        <li><i class="fas fa-envelope"></i> contact@foodconnect.com</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2024 Food Connect. All rights reserved.</p>
-            </div>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3 class="footer-logo">
+              <i class="fas fa-utensils"></i> Food Connect
+            </h3>
+            <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem">
+              Where friends and food meet. Discover, connect, and share amazing
+              food experiences.
+            </p>
+          </div>
+
+          <div class="footer-section">
+            <h4 style="color: var(--white); margin-bottom: 1rem">
+              Quick Links
+            </h4>
+            <ul class="footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="spots.html">Food Spots</a></li>
+              <li><a href="map.html">Map</a></li>
+              <li><a href="communities.html">Communities</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-section">
+            <h4 style="color: var(--white); margin-bottom: 1rem">Account</h4>
+            <ul class="footer-links">
+              <li><a href="login.html">Login</a></li>
+              <li><a href="signup.html">Sign Up</a></li>
+              <li><a href="profile.html">Profile</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-section">
+            <h4 style="color: var(--white); margin-bottom: 1rem">Contact</h4>
+            <ul class="footer-links">
+              <li>
+                <i class="fas fa-map-marker-alt"></i> Loyola College, Chennai
+              </li>
+              <li><i class="fas fa-envelope"></i> contact@foodconnect.com</li>
+            </ul>
+          </div>
         </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2024 Food Connect. All rights reserved.</p>
+        </div>
+      </div>
     </footer>
 
     <script src="js/utils.js"></script>
     <script src="js/main.js"></script>
     <script src="js/spots.js"></script>
-</body>
+  </body>
 </html>

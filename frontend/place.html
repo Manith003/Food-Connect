@@ -58,7 +58,7 @@
         .section-card {
             background: var(--white);
             border-radius: var(--radius-lg);
-            padding: 2rem;
+            padding: 1rem 2rem;
             margin-bottom: 2rem;
             box-shadow: var(--shadow-md);
         }
@@ -160,7 +160,7 @@
         .action-buttons {
             display: flex;
             gap: 1rem;
-            margin-top: 1rem;
+            margin-top: 2rem;
         }
         
         .empty-state {
@@ -189,9 +189,6 @@
     </style>
 </head>
 <body>
-    <!-- Custom Cursor -->
-    <div class="cursor-dot"></div>
-    <div class="cursor-dot-outline"></div>
 
     <!-- Navigation -->
     <nav class="navbar">
@@ -239,11 +236,11 @@
         <div class="place-hero-bg" id="placeHeroBg"></div>
         <div class="container">
             <div class="place-hero-content fade-in">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-                    <h1 class="place-title" id="placeName">Loading...</h1>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; min-width:150%">
+                    <h1 class="place-title" id="placeName" style="color: white">Loading...</h1>
                     <div id="likeButtonContainer"></div>
                 </div>
-                
+
                 <div class="place-meta">
                     <div id="placeRating"></div>
                     <div id="placeCuisine"></div>
@@ -314,6 +311,12 @@
                     <h4>Address</h4>
                     <p id="placeFullAddress" style="margin-bottom: 1rem;"></p>
                     <p id="placeLandmark" style="color: #666;"></p>
+                      <div class="action-buttons">
+                        <a id="directionsBtn" class="btn btn-primary" target="_blank">
+                            <i class="fas fa-directions"></i> Get Directions
+                        </a>
+                        
+                    </div>
                 </div>
                 
                 <div>
@@ -322,14 +325,7 @@
                             <div class="loading-spinner"></div>
                         </div>
                     </div>
-                    <div class="action-buttons">
-                        <a id="directionsBtn" class="btn btn-primary" target="_blank">
-                            <i class="fas fa-directions"></i> Get Directions
-                        </a>
-                        <a href="map.html" class="btn btn-outline">
-                            <i class="fas fa-map"></i> View on Map
-                        </a>
-                    </div>
+                  
                 </div>
             </div>
         </section>

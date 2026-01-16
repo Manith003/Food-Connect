@@ -318,15 +318,13 @@ function renderMyCommunities(communities) {
                     <span><i class="fas fa-user"></i> ${community.createdBy?.name || 'Unknown'}</span>
                 </div>
 
-                <div class="community-actions">
-                    <button class="btn btn-primary btn-sm open-chat-btn" data-community-id="${community._id}">
+                <div class="community-actions" ">
+                    <button class="btn btn-primary btn-sm open-chat-btn" data-community-id="${community._id}" style="width: 100%;>
                         <i class="fas fa-comments"></i> Chat
                     </button>
-                    <button class="btn btn-outline btn-sm open-polls-btn" data-community-id="${community._id}">
-                        <i class="fas fa-poll"></i> Polls
-                    </button>
+                    
                     ${community.inviteCode ? `
-                        <button class="btn btn-secondary btn-sm copy-invite-btn" data-invite-code="${community.inviteCode}">
+                        <button class="btn btn-secondary btn-sm copy-invite-btn" data-invite-code="${community.inviteCode}" style="width: 100%;>
                             <i class="fas fa-copy"></i> Invite
                         </button>
                     ` : ''}

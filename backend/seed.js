@@ -114,7 +114,7 @@ const seedData = async () => {
         longitude: 80.2540,
         address: '25, Sterling Road, Nungambakkam',
         landmark: 'Opposite Loyola College Main Gate',
-        googleMapsUrl: 'https://maps.google.com/?q=13.0660,80.2540',
+        googleMapsUrl: 'https://www.google.com/maps/dir//2+5,+Gopathy+Narayana+Rd,+T.+Nagar,+Chennai,+Tamil+Nadu+600017/@13.0449408,80.19968,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3a526656f3050b69:0x944a9f94df8820ee!2m2!1d80.2352884!2d13.0425866?entry=ttu&g_ep=EgoyMDI2MDExMS4wIKXMDSoKLDEwMDc5MjA2N0gBUAM%3D',
         openingHours: { open: '07:00', close: '22:00' },
         contact: { phone: '+91-44-28291234' },
         images: ['murugan-idli.jpg'],
@@ -154,7 +154,7 @@ const seedData = async () => {
         googleMapsUrl: 'https://maps.google.com/?q=13.0645,80.2528',
         openingHours: { open: '11:00', close: '23:00' },
         contact: { phone: '+91-44-28294567' },
-        images: ['annalakshmi.jpg'],
+        images: ['https://images.unsplash.com/photo-1767988048897-2dca103ff620?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxM3x8fGVufDB8fHx8fA%3D%3D'],
         menu: [
           {
             category: 'Main Course',
@@ -190,7 +190,7 @@ const seedData = async () => {
         googleMapsUrl: 'https://maps.google.com/?q=13.0672,80.2551',
         openingHours: { open: '11:00', close: '23:30' },
         contact: { phone: '+91-44-28297890' },
-        images: ['zaitoon.jpg'],
+        images: ['https://images.unsplash.com/photo-1767973419928-11ffdfe630a4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxMnx8fGVufDB8fHx8fA%3D%3D'],
         menu: [
           {
             category: 'Arabic',
